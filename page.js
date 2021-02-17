@@ -1,14 +1,15 @@
+const worker = new Worker('worker.js');
+
 function ready() {
   const output = document.getElementById('output');
 
-  const worker = new Worker('worker.js');
   worker.postMessage({ cmd: 'run' });
   worker.onmessage = message => {
-    output.textContent = message.output;
+    output.textContent = message.data.output;
   };
 }
 
-if (document.readyState == 'load') {
+if (document.readyState === 'complete') {
   ready();
 } else {
   window.addEventListener('load', ready, { once: true, passive: true });
